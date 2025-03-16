@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/Navbar.css';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar({ userName, onLogout, toggleSidebar }) {
   // Get the first letter of the user's name for avatar
@@ -34,6 +36,7 @@ export default function Navbar({ userName, onLogout, toggleSidebar }) {
         </div>
       </div>
       <div className="navbar-user">
+        <ThemeToggle />
         <div className="user-avatar" title={`Logged in as ${userName}`}>
           {userInitial}
         </div>

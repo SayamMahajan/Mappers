@@ -5,7 +5,13 @@ import VerifyEmail from './components/auth/VerifyEmail';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
 import Dashboard from './components/Dashboard';
+import Alerts from './components/Alerts';
 import './App.css';
+import { initializeTheme, watchSystemThemeChanges } from './utils/themeUtils';
+
+// Initialize theme before rendering
+initializeTheme();
+watchSystemThemeChanges();
 
 function App() {
   return (
@@ -18,6 +24,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/alerts" element={<Alerts />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,0 +1,150 @@
+/* Alert Boxes Styling */
+.alert-boxes {
+    display: flex;
+    gap: 24px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  
+  .alert-box {
+    flex: 1;
+    min-width: 250px;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .alert-box h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  
+  .alert-box p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+  
+  .alert-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 16px;
+  }
+  
+  .alert-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .alert-count {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  
+  .alert-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    transition: height 0.3s ease;
+  }
+  
+  .alert-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .alert-box:hover::before {
+    height: 8px;
+  }
+  
+  /* High Alert - Red color scheme */
+  .high-alert {
+    background-color: #fff5f5;
+    border: 1px solid #ffe0e0;
+    color: #d32f2f;
+  }
+  
+  .high-alert .alert-icon {
+    background-color: #ffebee;
+    color: #d32f2f;
+  }
+  
+  .high-alert::before {
+    background: linear-gradient(90deg, #ef5350, #e57373);
+  }
+  
+  /* Medium Alert - Yellow color scheme */
+  .medium-alert {
+    background-color: #fffbeb;
+    border: 1px solid #fef3c7;
+    color: #d97706;
+  }
+  
+  .medium-alert .alert-icon {
+    background-color: #fff8e1;
+    color: #f59e0b;
+  }
+  
+  .medium-alert::before {
+    background: linear-gradient(90deg, #fbbf24, #fcd34d);
+  }
+  
+  /* Low Alert - Green color scheme */
+  .low-alert {
+    background-color: #f0fdf4;
+    border: 1px solid #dcfce7;
+    color: #16a34a;
+  }
+  
+  .low-alert .alert-icon {
+    background-color: #e8f5e9;
+    color: #22c55e;
+  }
+  
+  .low-alert::before {
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+  }
+  
+  .alert-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 30px;
+    background-color: var(--bg-tertiary, #f9fafb);
+    border-radius: 12px;
+    color: var(--text-secondary, #94a3b8);
+  }
+  
+  .alert-placeholder svg {
+    margin-bottom: 16px;
+    color: var(--text-secondary, #cbd5e1);
+  }
+  
+  @media (max-width: 768px) {
+    .alert-boxes {
+      flex-direction: column;
+    }
+    
+    .alert-box {
+      width: 100%;
+    }
+  }
