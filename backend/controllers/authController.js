@@ -4,19 +4,22 @@ import crypto from "crypto";
 import 'dotenv/config';
 import { generateVerificationToken } from "../utils/generateVerificationToken.js";
 import { generateJWTToken } from "../utils/generateJWTToken.js";
-import { sendConfirmationEmail, sendResetPasswordEmail, sendResetPasswordSuccessEmail, sendVerificationEmail } from "../resend/email.js";
+import { sendOTP } from "../utils/sendOTP.js";
+import { sendConfirmationEmail, sendResetPasswordEmail, sendResetPasswordSuccessEmail, sendVerificationEmail } 
+from "../resend/email.js";
 
 export const signup = async (req, res) => {
-  const { firstName, lastName, email, password, phoneNumber, state } = req.body;
+  const { firstName, lastName, email, password, phoneNumber, state, country } = req.body;
   try {
-    if (!firstName || !lastName || !email || !password || !phoneNumber || !state) {
+    if (!firstName || !lastName || !email || !password || !phoneNumber || !state || !country) {
       return res.status(400).json({ success: false,  message: "Enter all fields"});
     }
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) return res.status(400).json({ success: false, message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationToken = generateVerificationToken();
+    const emailVerificationToken = generateVerificationToken();
+    const phoneVerificationToken = generateVerificationToken;
 
     const user = new User({ 
       firstName,
@@ -25,12 +28,15 @@ export const signup = async (req, res) => {
       password : hashedPassword, 
       phoneNumber,
       state,
-      verificationToken,
-      verificationTokenExpiresAt : Date.now() + 24 * 60 * 60 * 1000, 
+      country,
+      emailVerificationToken,
+      emailVerificationTokenExpiresAt : Date.now() + 24 * 60 * 60 * 1000, 
+      phoneVerificationToken,
+      phoneVerificationTokenExpiresAt : Date.now() + 10 * 60 * 1000,
     });
     await user.save();
 
-    await sendVerificationEmail(user.email, verificationToken);
+    await sendVerificationEmail(user.email, emailVerificationToken);
 
     return res.status(201).json({ success: true, message: 'User registered successfully!', user: {
       ...user._doc,
@@ -53,7 +59,9 @@ export const login = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid Password"});
     }
 
-    const isVerified = user.isVerified;
+    const isEmailVerified = user.isEmailVerified;
+    const isPhoneVerified = user.isPhoneVerified;
+    const isVerified = isEmailVerified && isPhoneVerified;
     if(!isVerified){
       return res.status(400).json({ success: false, message: "Verify Email"});
     }
@@ -72,18 +80,18 @@ export const logout = async (req, res) => {
 }
 
 export const verifyEmail = async (req, res) => {
-  const {  } = req.body;
+  const { otp } = req.body;
   try {
     const user = await User.findOne({
-      verificationToken: otp,
-      verificationTokenExpiresAt : { $gt: Date.now()},
+      emailVerificationToken: otp,
+      emailVerificationTokenExpiresAt : { $gt: Date.now()},
     });
     if(!user){
       return res.status(400).json({ success: false, message: "Invalid or expired verification code"});
     }
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpiresAt = undefined;
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationTokenExpiresAt = undefined;
     await user.save();
 
     await sendConfirmationEmail(user.email, user.firstName);
@@ -94,6 +102,31 @@ export const verifyEmail = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const verifyPhone = async (req, res) => {
+  const { phoneNumber, otp } = req.body;
+  try {
+    const user = await User.findOne({ phoneNumber });
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+    if (user.phoneOTP !== otp || user.phoneOTPExpiresAt < Date.now()) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
+    }
+
+    user.isPhoneVerified = true;
+    user.phoneOTP = undefined;
+    user.phoneOTPExpiresAt = undefined;
+    await user.save();
+
+    return res.status(200).json({ success: true, message: "Phone number verified successfully!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 export const forgetPassword = async (req, res) => {
   const { email } = req.body;
@@ -154,13 +187,13 @@ export const resendVerificationToken = async (req, res) => {
       return res.status(400).json({ success: false, message: "User not found" });
     }
 
-    if (user.isVerified) {
+    if (user.isEmailVerified) {
       return res.status(400).json({ success: false, message: "Email is already verified" });
     }
 
     const newVerificationToken = generateVerificationToken();
-    user.verificationToken = newVerificationToken;
-    user.verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000;
+    user.emailVerificationToken = newVerificationToken;
+    user.emailVerificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000;
 
     await user.save();
     await sendVerificationEmail(user.email, newVerificationToken);
@@ -170,6 +203,35 @@ export const resendVerificationToken = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const resendPhoneOTP = async (req, res) => {
+  const { phoneNumber } = req.body;
+  try {
+    if (!phoneNumber) {
+      return res.status(400).json({ success: false, message: "Phone number is required" });
+    }
+
+    const user = await User.findOne({ phoneNumber });  
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+    if (user.isPhoneVerified) {
+      return res.status(400).json({ success: false, message: "Phone number is already verified" });
+    }
+
+    const newPhoneOTP = generateVerificationToken();
+    user.phoneOTP = newPhoneOTP;
+    user.phoneOTPExpiresAt = Date.now() + 10 * 60 * 1000;
+
+    await user.save();
+    await sendOTP(phoneNumber, newPhoneOTP);
+
+    return res.status(200).json({ success: true, message: "New OTP sent to your phone number" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
 
 export const checkAuth = async (req, res) => {
   try {

@@ -27,14 +27,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isVerified: {
+  country: {
+    type: String,
+    required: true
+  },
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  isPhoneVerified: {
     type: Boolean,
     default: false
   },
   resetPasswordToken: String,
   resetPasswordExpiresAt: Date,
-  verificationToken: String,
-  verificationTokenExpiresAt: Date,
+  emailVerificationToken: String,
+  emailVerificationTokenExpiresAt: Date,
+  phoneVerificationToken: String,
+  phoneVerificationTokenExpiresAt: Date,
 }, { timestamps: true });
 
 const User = mongoose.model('user', userSchema);
