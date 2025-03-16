@@ -19,7 +19,7 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = generateVerificationToken();
-    const phoneVerificationToken = generateVerificationToken;
+    const phoneVerificationToken = generateVerificationToken();
 
     const user = new User({ 
       firstName,
@@ -37,6 +37,7 @@ export const signup = async (req, res) => {
     await user.save();
 
     await sendVerificationEmail(user.email, emailVerificationToken);
+    await sendOTP(phoneNumber, phoneVerificationToken);
 
     return res.status(201).json({ success: true, message: 'User registered successfully!', user: {
       ...user._doc,
@@ -221,8 +222,8 @@ export const resendPhoneOTP = async (req, res) => {
     }
 
     const newPhoneOTP = generateVerificationToken();
-    user.phoneOTP = newPhoneOTP;
-    user.phoneOTPExpiresAt = Date.now() + 10 * 60 * 1000;
+    user.phoneVerificationToken = newPhoneOTP;
+    user.phoneVerificationTokenExpiresAt = Date.now() + 10 * 60 * 1000;
 
     await user.save();
     await sendOTP(phoneNumber, newPhoneOTP);

@@ -9,7 +9,8 @@ export default function Signup() {
     email: '',
     password: '',
     phoneNumber: '',
-    state: ''
+    state: '',
+    country: 'India'
   });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();

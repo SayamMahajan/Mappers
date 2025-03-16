@@ -11,10 +11,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: `${process.env.CLIENT_URL}`, 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ,'PATCH'], 
-  allowedHeaders: ['Content-Type', 'Authorization', 'withCredentials'], 
-  credentials: true,
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'withCredentials', 'Origin'],
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());

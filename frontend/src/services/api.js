@@ -1,10 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Use relative URLs when in development mode
+const API_BASE_URL = import.meta.env.PROD ? import.meta.env.VITE_API_BASE_URL : '';
 
 export const authAPI = {
-  signup: async (userData) => {
+  // In your authAPI.signup method
+signup: async (userData) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Origin': window.location.origin,
+      },
       body: JSON.stringify(userData),
       credentials: 'include'
     });
