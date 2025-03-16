@@ -4,7 +4,7 @@
     align-items: center;
     padding: 0 28px;
     height: 70px;
-    background: linear-gradient(135deg, var(--accent-primary, #2563eb) 0%, var(--accent-secondary, #3b82f6) 100%);
+    background: #1985ad;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -95,7 +95,7 @@
     justify-content: center;
     font-weight: 600;
     font-size: 18px;
-    color: #3a7bd5;
+    color: #056384;
     border: 2px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);

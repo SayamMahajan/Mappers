@@ -6,22 +6,22 @@
   --bg-tertiary: white;
   --text-primary: #334155;
   --text-secondary: #475569;
-  --accent-primary: #2563eb;
-  --accent-secondary: #60a5fa;
+  --accent-primary: #056384;
+  --accent-secondary: #0583ad;
   --border-color: rgba(226, 232, 240, 0.8);
   --shadow-color: rgba(0, 0, 0, 0.06);
   --hover-shadow: rgba(0, 0, 0, 0.08);
-  --btn-bg: #e0eaff;
-  --btn-color: #2563eb;
-  --btn-hover-bg: #2563eb;
+  --btn-bg: #e0f2f7;
+  --btn-color: #056384;
+  --btn-hover-bg: #056384;
   --btn-hover-color: white;
-  --map-tabs-bg: linear-gradient(to right, #eef2ff, #e0eaff);
-  --loading-bg: #f0f5ff;
+  --map-tabs-bg: linear-gradient(to right, #eef7f9, #e0f2f7);
+  --loading-bg: #f0f9fc;
   --scrollbar-track: #f1f5f9;
   --scrollbar-thumb: #cbd5e1;
   --scrollbar-thumb-hover: #94a3b8;
   --map-controls-bg: white;
-  --map-controls-color: #3b82f6;
+  --map-controls-color: #056384;
 }
 
 /* Dark theme */
@@ -31,14 +31,14 @@
   --bg-tertiary: #2d3748;
   --text-primary: #e2e8f0;
   --text-secondary: #a0aec0;
-  --accent-primary: #60a5fa;
-  --accent-secondary: #3b82f6;
+  --accent-primary: #0583ad;
+  --accent-secondary: #056384;
   --border-color: rgba(74, 85, 104, 0.3);
   --shadow-color: rgba(0, 0, 0, 0.15);
   --hover-shadow: rgba(0, 0, 0, 0.25);
   --btn-bg: #2d3748;
-  --btn-color: #60a5fa;
-  --btn-hover-bg: #3b82f6;
+  --btn-color: #0583ad;
+  --btn-hover-bg: #056384;
   --btn-hover-color: #e2e8f0;
   --map-tabs-bg: linear-gradient(to right, #2d3748, #1a202c);
   --loading-bg: #2d3748;
@@ -46,7 +46,7 @@
   --scrollbar-thumb: #4a5568;
   --scrollbar-thumb-hover: #718096;
   --map-controls-bg: #2d3748;
-  --map-controls-color: #60a5fa;
+  --map-controls-color: #0583ad;
 }
 
 /* Theme transition */
@@ -262,7 +262,7 @@
 }
 
 .map-view-tabs:hover {
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 6px 20px rgba(5, 99, 132, 0.15);
   transform: translateY(-2px);
 }
 
@@ -326,7 +326,7 @@
 }
 
 .view-tab.active svg {
-  filter: drop-shadow(0 1px 2px rgba(37,99,235,0.3));
+  filter: drop-shadow(0 1px 2px rgba(5, 99, 132, 0.3));
 }
 
 /* Ripple effect for click interaction */
@@ -335,7 +335,7 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  background-color: rgba(59, 130, 246, 0.2);
+  background-color: rgba(5, 99, 132, 0.2);
   border-radius: 50%;
   transform: scale(0);
   transition: all 0.5s ease-out;
@@ -481,7 +481,7 @@
 .card-btn:hover {
   background-color: var(--btn-hover-bg);
   color: var(--btn-hover-color);
-  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 12px rgba(5, 99, 132, 0.25);
   transform: translateY(-3px);
 }
 
@@ -630,5 +630,37 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   font-weight: 600;
   animation: pulse 1.5s ease infinite;
+}
+
+/* Map Legend Styles */
+.map-legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.map-legend h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 8px;
 }
 
