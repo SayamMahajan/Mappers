@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+/* Modern Auth Styling for Mappers */
+
+.auth-container {
+  max-width: 550px; /* Increased from 450px */
+  margin: 80px auto;
+  padding: 2.5rem; /* Increased padding */
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.3s ease;
+}
+
+.auth-container:hover {
+  transform: translateY(-5px);
+}
+
+.auth-title {
+  color: #2a4365;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 3rem; /* Increased from 2rem to create more space below title */
+  font-weight: 600;
+  position: relative;
+}
+
+.auth-title:after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #3182ce, #63b3ed);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Increased from 1.25rem to create more space between form elements */
+}
+
+.form-input {
+  padding: 14px 16px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f7fafc;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+  background-color: white;
+}
+
+.auth-button {
+  background: linear-gradient(to right, #3182ce, #4299e1);
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-button:hover {
+  background: linear-gradient(to right, #2c5282, #3182ce);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.error-message {
+  color: #e53e3e;
+  background-color: #fff5f5;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border-left: 4px solid #e53e3e;
+  margin: 0.5rem 0;
+  animation: slideIn 0.3s ease;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-links a {
+  color: #3182ce;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.auth-links a:hover {
+  color: #2c5282;
+}
+
+.auth-links a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #3182ce;
+  transition: width 0.3s ease;
+}
+
+.auth-links a:hover:after {
+  width: 100%;
+}
+
+/* Animation keyframes */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .auth-container {
+    margin: 40px 20px;
+    padding: 1.5rem;
+  }
+  
+  .auth-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Background styling for the page */
+body {
+  background: linear-gradient(135deg, #f6f9fc, #e6f7ff);
+  min-height: 100vh;
+}
+
+.animation-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Replace hover with class-based animation trigger */
+.animation-container.animation-active .top:before,
+.animation-container.animation-active .top:after,
+.animation-container.animation-active .bottom:before,
+.animation-container.animation-active .bottom:after {
+  margin-left: 200px;
+  transform-origin: -200px 50%;
+  transition-delay: 0s;
+}
+
+.animation-container.animation-active .center {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+/* Keep hover as fallback for non-JS environments */
+.animation-container:hover .top:before,
+.animation-container:hover .top:after,
+.animation-container:hover .bottom:before,
+.animation-container:hover .bottom:after {
+  margin-left: 200px;
+  transform-origin: -200px 50%;
+  transition-delay: 0s;
+}
+
+.animation-container:hover .center {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+.top:before, .top:after, 
+.bottom:before, .bottom:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 200vmax;
+  height: 200vmax;
+  top: 50%;
+  left: 50%;
+  margin-top: -100vmax;
+  transform-origin: 0 50%;
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+  z-index: 10;
+  opacity: 0.65;
+  transition-delay: 0.2s;
+}
+
+.top:before {
+  transform: rotate(45deg);
+  background: #3498db;
+}
+
+.top:after {
+  transform: rotate(135deg);
+  background: #2980b9;
+}
+
+.bottom:before {
+  transform: rotate(-45deg);
+  background: #34495e;
+}
+
+.bottom:after {
+  transform: rotate(-135deg);
+  background: #2c3e50;
+}
+
+.center {
+  position: absolute;
+  width: 550px; /* Increased from 400px */
+  height: auto;
+  top: 40%;
+  left: 50%;
+  margin-left: -275px; /* Adjusted to half of width */
+  margin-top: -220px; /* Increased to provide more vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px; /* Increased padding */
+  opacity: 0; /* Start hidden */
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+  transition-delay: 0s;
+  z-index: 20;
+}
+
+/* Add responsive adjustments for the larger container */
+@media (max-width: 600px) {
+  .center {
+    width: 90%;
+    margin-left: -45%;
+    padding: 20px;
+  }
+}

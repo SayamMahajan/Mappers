@@ -1,0 +1,451 @@
+/* Multi-step Signup Form Styling */
+
+/* Variables */
+:root {
+  --black: #000000;
+  --blue-ribbon: #0069ec;
+  --dodger-blue: #25a3ff;
+  --mine-shaft: #333333;
+  --scorpion: #565656;
+  --torch-red: #ff0033;
+  --white: #ffffff;
+}
+
+/* Base styles */
+.signup-wrapper {
+  font-family: "Open Sans", sans-serif;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: var(--dodger-blue);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hide checkboxes used for state management */
+.c-checkbox {
+  display: none;
+}
+
+/* Progress bar styling */
+.c-form__progress {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: var(--blue-ribbon);
+  transition: 0.3s;
+}
+
+/* Form container - initial small state */
+.c-formContainer {
+  width: 180px;
+  height: 65px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Welcome message shown after completion */
+.c-welcome {
+  position: absolute;
+  width: max-content;
+  height: inherit;
+  font-size: 40px;
+  color: var(--white);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+/* Main form styling - initially compact */
+.c-form {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  background-color: var(--white);
+  box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.2),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  transition: width 0.3s, height 0.3s;
+}
+
+/* Register button styling - visible by default */
+.c-form__toggle {
+  width: inherit;
+  height: inherit;
+  font-size: 18px;
+  color: var(--mine-shaft);
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Toggle icon styling */
+.c-form__toggleIcon {
+  display: inline-block;
+  margin-left: 10px;
+  position: relative;
+  width: 15px;
+  height: 17px;
+}
+
+.c-form__toggleIcon::before,
+.c-form__toggleIcon::after {
+  content: "";
+  position: absolute;
+  background-color: var(--scorpion);
+}
+
+.c-form__toggleIcon::before {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.c-form__toggleIcon::after {
+  bottom: 0;
+  width: 100%;
+  height: 7px;
+  border-radius: 7px 7px 0 0;
+}
+
+/* Form groups - initially hidden */
+.c-form__group {
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  padding: 12px 15px;
+  box-sizing: border-box;
+  transition: 0.2s 0.2s;
+  position: absolute;
+}
+
+/* Form label container */
+.c-form__label {
+  position: relative;
+  cursor: pointer;
+  width: calc(100% - 40px);
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Input field styling */
+.c-form__input {
+  font-size: 20px;
+  font-family: inherit;
+  width: 100%;
+  height: 90%;
+  border: 0;
+  outline: 0;
+  color: var(--mine-shaft);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* Input focus and filled states */
+.c-form__input:focus,
+.c-form__input:not(:placeholder-shown) {
+  cursor: initial;
+}
+
+.c-form__input:focus ~ .c-form__groupLabel,
+.c-form__input:not(:placeholder-shown) ~ .c-form__groupLabel {
+  font-size: 10px;
+  top: -4px;
+  transform: translateY(0);
+  color: var(--mine-shaft);
+}
+
+.c-form__input:focus ~ .c-form__border,
+.c-form__input:focus ~ .c-form__next,
+.c-form__input:not(:placeholder-shown) ~ .c-form__border,
+.c-form__input:not(:placeholder-shown) ~ .c-form__next {
+  transition: 0.3s;
+}
+
+/* Label styling */
+.c-form__groupLabel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.2s;
+}
+
+/* Border animation */
+.c-form__border {
+  position: absolute;
+  width: 0;
+  height: 3px;
+  color: var(--dodger-blue);
+  background-color: currentColor;
+  transition: 1s 0.2s ease-out;
+}
+
+/* Next button styling */
+.c-form__next {
+  color: var(--dodger-blue);
+  position: absolute;
+  right: -40px;
+  height: 100%;
+  width: 40px;
+  cursor: pointer;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Next button icon */
+.c-form__nextIcon {
+  position: relative;
+  right: 1.5px;
+  width: 20px;
+  height: 3px;
+  background-color: currentColor;
+}
+
+.c-form__nextIcon::before,
+.c-form__nextIcon::after {
+  content: "";
+  position: absolute;
+  right: -1.5px;
+  width: 15px;
+  height: 3px;
+  background-color: inherit;
+}
+
+.c-form__nextIcon::before {
+  bottom: -1.5px;
+  transform-origin: top right;
+  transform: rotate(45deg);
+}
+
+.c-form__nextIcon::after {
+  top: -1.5px;
+  transform-origin: bottom right;
+  transform: rotate(-45deg);
+}
+
+/* Form validation styling */
+.c-form__input:not(:placeholder-shown):invalid ~ .c-form__border,
+.c-form__input:not(:placeholder-shown):invalid ~ .c-form__next {
+  color: var(--torch-red);
+}
+
+.c-form__input:required:valid ~ .c-form__next {
+  pointer-events: initial;
+  color: var(--scorpion);
+}
+
+/* Step transitions - First step */
+#start:checked ~ .c-formContainer .c-form__toggle {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+#start:checked ~ .c-formContainer .c-form {
+  width: 382px;
+}
+
+#start:checked ~ .c-formContainer .c-form .c-form__group:nth-child(1) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#start:checked ~ .c-formContainer .c-form .c-form__group:nth-child(1) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Second step */
+#progress2:checked ~ .c-form__progress {
+  width: calc(100vw / 7);
+}
+
+#progress2:checked ~ .c-formContainer .c-form .c-form__group:nth-child(1) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress2:checked ~ .c-formContainer .c-form .c-form__group:nth-child(1) .c-form__border {
+  width: 0;
+}
+
+#progress2:checked ~ .c-formContainer .c-form .c-form__group:nth-child(2) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress2:checked ~ .c-formContainer .c-form .c-form__group:nth-child(2) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Third step */
+#progress3:checked ~ .c-form__progress {
+  width: calc(2 * 100vw / 7);
+}
+
+#progress3:checked ~ .c-formContainer .c-form .c-form__group:nth-child(2) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress3:checked ~ .c-formContainer .c-form .c-form__group:nth-child(2) .c-form__border {
+  width: 0;
+}
+
+#progress3:checked ~ .c-formContainer .c-form .c-form__group:nth-child(3) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress3:checked ~ .c-formContainer .c-form .c-form__group:nth-child(3) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Fourth step */
+#progress4:checked ~ .c-form__progress {
+  width: calc(3 * 100vw / 7);
+}
+
+#progress4:checked ~ .c-formContainer .c-form .c-form__group:nth-child(3) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress4:checked ~ .c-formContainer .c-form .c-form__group:nth-child(3) .c-form__border {
+  width: 0;
+}
+
+#progress4:checked ~ .c-formContainer .c-form .c-form__group:nth-child(4) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress4:checked ~ .c-formContainer .c-form .c-form__group:nth-child(4) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Fifth step */
+#progress5:checked ~ .c-form__progress {
+  width: calc(4 * 100vw / 7);
+}
+
+#progress5:checked ~ .c-formContainer .c-form .c-form__group:nth-child(4) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress5:checked ~ .c-formContainer .c-form .c-form__group:nth-child(4) .c-form__border {
+  width: 0;
+}
+
+#progress5:checked ~ .c-formContainer .c-form .c-form__group:nth-child(5) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress5:checked ~ .c-formContainer .c-form .c-form__group:nth-child(5) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Sixth step */
+#progress6:checked ~ .c-form__progress {
+  width: calc(5 * 100vw / 7);
+}
+
+#progress6:checked ~ .c-formContainer .c-form .c-form__group:nth-child(5) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress6:checked ~ .c-formContainer .c-form .c-form__group:nth-child(5) .c-form__border {
+  width: 0;
+}
+
+#progress6:checked ~ .c-formContainer .c-form .c-form__group:nth-child(6) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress6:checked ~ .c-formContainer .c-form .c-form__group:nth-child(6) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Seventh step */
+#progress7:checked ~ .c-form__progress {
+  width: calc(6 * 100vw / 7);
+}
+
+#progress7:checked ~ .c-formContainer .c-form .c-form__group:nth-child(6) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#progress7:checked ~ .c-formContainer .c-form .c-form__group:nth-child(6) .c-form__border {
+  width: 0;
+}
+
+#progress7:checked ~ .c-formContainer .c-form .c-form__group:nth-child(7) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#progress7:checked ~ .c-formContainer .c-form .c-form__group:nth-child(7) .c-form__border {
+  width: 100%;
+}
+
+/* Step transitions - Final step */
+#finish:checked ~ .c-form__progress {
+  width: 100vw;
+}
+
+#finish:checked ~ .c-formContainer .c-form .c-form__group:nth-child(7) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#finish:checked ~ .c-formContainer .c-form .c-form__group:nth-child(7) .c-form__border {
+  width: 0;
+}
+
+#finish:checked ~ .c-formContainer .c-form {
+  transition: opacity 0.2s 0.1s, transform 0.3s;
+  opacity: 0;
+  transform: translateX(50%) scaleX(0);
+}
+
+#finish:checked ~ .c-formContainer .c-welcome {
+  opacity: 1;
+}
+
+/* Enhanced transition for initial state */
+@keyframes expand-form {
+  0% {
+    width: 180px;
+    height: 65px;
+  }
+  100% {
+    width: 382px;
+    height: 65px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  #finish:checked ~ .c-formContainer .c-form {
+    width: 320px;
+    padding: 20px;
+  }
+  
+  .final-form-title {
+    font-size: 20px;
+  }
+}
